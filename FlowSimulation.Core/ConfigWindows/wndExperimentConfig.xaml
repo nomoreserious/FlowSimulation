@@ -1,0 +1,38 @@
+﻿<Window x:Class="FlowSimulation.ConfigWindows.wndExperimentConfig"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Height="600" Width="350" Closing="Window_Closing" FontSize="14">
+    <Grid Background="#FFDFDFDF">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="22" />
+            <RowDefinition Height="32" />
+            <RowDefinition Height="208*" />
+            <RowDefinition Height="32" />
+        </Grid.RowDefinitions>
+        <TextBlock Margin="3,1" Text="Укажите интервал времени моделирования" />
+        <StackPanel Margin="10,0" Name="SliderPanel" Grid.Row="1"/>
+        <TextBlock Margin="3,1" Grid.Row="2" Text="Выберите контролируемые параметры из списка" />
+        <ListBox Padding="2" BorderThickness="6,5" BorderBrush="#FF8BCCD1" Background="WhiteSmoke" Grid.Row="4" Name="lbParams" >
+            <ListBox.Items>
+                <CheckBox Padding="4,-1,2,1" x:Name="cbAgentCountOnMap"></CheckBox>
+                <CheckBox Padding="4,-1,2,1" x:Name="cbAgentCountOnMapByGroup"></CheckBox>
+                <CheckBox Padding="4,-1,2,1" x:Name="cbAgentInputOutput"></CheckBox>
+                <CheckBox Padding="4,-1,2,1" x:Name="cbAgentInputOutputByGroup"></CheckBox>
+                <CheckBox Padding="4,-1,2,1" x:Name="cbAgentAverangeSpeed"></CheckBox>
+                <CheckBox Padding="4,-1,2,1" x:Name="cbAgentAverangeSpeedByGroup"></CheckBox>
+                <CheckBox Padding="4,-1,2,1" x:Name="cbAgentAverangeTime"></CheckBox>
+                <CheckBox Padding="4,-1,2,1" x:Name="cbAgentAverangeTimeByGroup"></CheckBox>
+                <CheckBox Padding="4,-1,2,1" x:Name="cbAgentAverangeLenght"></CheckBox>
+                <CheckBox Padding="4,-1,2,1" x:Name="cbAgentAverangeLenghtByGroup"></CheckBox>
+                <CheckBox Padding="4,-1,2,1" x:Name="cbSpectralDensity"></CheckBox>
+            </ListBox.Items>
+        </ListBox>
+        <Button Content="Отмена" Grid.Row="5" HorizontalAlignment="Right" Margin="3" Width="100" IsCancel="True" Click="Button_Click"/>
+        <Button Content="Сохранить" Grid.Row="5" HorizontalAlignment="Right" Margin="106,3" Width="100" IsDefault="True" Click="Button_Click"/>
+
+        <Button Content="Выбрать все" Grid.Row="3" HorizontalAlignment="Right" Margin="106,3" Width="100" Click="ButtonAllNone_Click"/>
+        <Button Content="Снять все" Grid.Row="3" HorizontalAlignment="Right" Margin="3" Width="100" Click="ButtonAllNone_Click"/>
+    </Grid>
+</Window>

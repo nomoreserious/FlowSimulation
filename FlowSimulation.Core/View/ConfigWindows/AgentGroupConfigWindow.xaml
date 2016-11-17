@@ -1,0 +1,163 @@
+﻿<wnd:MetroWindow x:Class="FlowSimulation.View.ConfigWindows.AgentGroupConfigWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                 xmlns:wnd="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 xmlns:cvb="clr-namespace:FlowSimulation.Helpers.MVVM;assembly=FlowSimulation.Helpers"
+                 xmlns:cnvrt="clr-namespace:FlowSimulation.Converters"
+                 cvb:CloseViewBehavior.CloseView="{Binding Path=CloseView}"
+                 mc:Ignorable="d" Title="Редактирование групп агентов" Height="448" Width="500">
+    <wnd:MetroWindow.Resources>
+        <cnvrt:EnumStringValueConverter x:Key="EnumStringValueConverter"/>
+        
+        <cnvrt:AgentGroupInitConfigPanelSelector x:Key="AgentGroupInitConfigPanelSelector">
+            <cnvrt:AgentGroupInitConfigPanelSelector.Distribution>
+                <DataTemplate>
+                    <Button Content="Настройка распределения агентов" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}, Path=DataContext.AgentVolumeConfigCommand,Mode=OneTime}"/>
+                </DataTemplate>
+            </cnvrt:AgentGroupInitConfigPanelSelector.Distribution>
+            <cnvrt:AgentGroupInitConfigPanelSelector.Count>
+                <DataTemplate>
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Left" Padding="5,3" Text="Количество агентов"/>
+                        <TextBox Text="{Binding Path=Count,Mode=TwoWay}"/>
+                    </DockPanel>
+                </DataTemplate>
+            </cnvrt:AgentGroupInitConfigPanelSelector.Count>
+            <cnvrt:AgentGroupInitConfigPanelSelector.Network>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" Padding="5,3" Text="Хост : Порт  "/>
+                        <TextBox MinWidth="142" Text="{Binding Path=Host,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock VerticalAlignment="Center" Padding="5,3" Text=":"/>
+                        <TextBox MinWidth="50" MaxLength="5" Text="{Binding Path=Port,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                </DataTemplate>
+            </cnvrt:AgentGroupInitConfigPanelSelector.Network>
+            <cnvrt:AgentGroupInitConfigPanelSelector.TimeTable>
+                <DataTemplate>
+                    <Button Content="Настройка расписания" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}, Path=DataContext.AgentVolumeConfigCommand,Mode=OneTime}"/>
+                </DataTemplate>
+            </cnvrt:AgentGroupInitConfigPanelSelector.TimeTable>
+        </cnvrt:AgentGroupInitConfigPanelSelector>
+    </wnd:MetroWindow.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition MinWidth="300" Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="Список групп" Margin="5,5,0,0">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                    <Button Content="Создать" Padding="5,2" Margin="1" Command="{Binding Path=AddCommand,Mode=OneTime}"/>
+                    <Button Content="Удалить" Padding="5,2" Margin="1" Command="{Binding Path=RemoveCommand,Mode=OneTime}"/>
+                </StackPanel>
+                <ListBox ItemsSource="{Binding Path=AgentGroups,Mode=OneWay}" SelectedItem="{Binding Path=SelectedGroup,Mode=OneWayToSource}" DisplayMemberPath="Name" />
+            </DockPanel>
+        </GroupBox>
+
+        <GroupBox Grid.Column="1" Header="{Binding Path=SelectedGroup.Name}" Margin="5,5,5,0">
+            <GroupBox.Style>
+                <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=SelectedGroup}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </GroupBox.Style>
+            <Grid DataContext="{Binding Path=SelectedGroup,Mode=OneWay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Padding" Value="1.5"/>
+                    </Style>
+                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+                        <Setter Property="Margin" Value="0,1.5,3,1.5"/>
+                    </Style>
+                    <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}">
+                        <Setter Property="Margin" Value="1.5"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="Margin" Value="1.5,3"/>
+                        <Setter Property="Padding" Value="0,3"/>
+                    </Style>
+                </Grid.Resources>
+
+                <TextBlock Text="Имя группы"/>
+                <TextBox Grid.Column="1" Text="{Binding Path=Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                
+                <TextBlock Grid.Row="1" Text="Точка входа"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" Margin="0,1.5,3,1.5" ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}, Path=DataContext.InputPoints,Mode=OneWay}" 
+                          SelectedItem="{Binding Path=SourcePoint,Mode=TwoWay}" DisplayMemberPath="Name"/>
+
+                <CheckBox Grid.Row="2" Content="Точка выхода" IsChecked="{Binding Path=HasTargetPoint}"/>
+                <ComboBox Grid.Row="2" Grid.Column="1" Margin="0,1.5,3,1.5" ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}, Path=DataContext.OutputPoints,Mode=OneWay}" 
+                          SelectedItem="{Binding Path=TargetPoint,Mode=TwoWay}" DisplayMemberPath="Name">
+                    <ComboBox.Style>
+                        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=HasTargetPoint}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                </ComboBox>
+
+                <TextBlock Grid.Row="3" Text="Инициализация"/>
+                <ComboBox Grid.Row="3" Grid.Column="1" Margin="0,1.5,3,1.5" SelectedItem="{Binding Path=Type,Mode=TwoWay}"
+                          ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}, Path=DataContext.AgentInitTypes}" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=.,Converter={StaticResource EnumStringValueConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <ContentControl Grid.Row="4" Grid.ColumnSpan="2" ContentTemplateSelector="{StaticResource AgentGroupInitConfigPanelSelector}" 
+                                Content="{Binding Path=Group,Mode=OneWay}"/>
+                
+                <TextBlock Grid.Row="5" Text="Вид агентов"/>
+                
+                <ComboBox Grid.Row="5" Grid.Column="1" Margin="0,1.5,3,1.5" DisplayMemberPath="FancyName"
+                          ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=GroupBox}, Path=DataContext.AgentTypes}"
+                          SelectedItem="{Binding Path=SelectedAgentType,Mode=TwoWay}"/>
+
+                <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Text="Настройка агентов"/>
+
+                <Border Grid.Row="7" Grid.ColumnSpan="2" BorderBrush="DimGray" BorderThickness="1">
+                    <TextBlock Text="{Binding Path=SelectedAgentType}"/>
+                </Border>
+
+            </Grid>
+        </GroupBox>
+        
+        <DockPanel Grid.Row="2" Grid.ColumnSpan="2" Margin="0,3">
+            <Button DockPanel.Dock="Right" Margin="3" Padding="3" Content="Отмена" Width="100" IsCancel="True" />
+            <Button DockPanel.Dock="Right" Margin="0,3" Padding="3" Content="Ок" Width="100" IsDefault="True" Command="{Binding Path=SaveCommand,Mode=OneTime}"/>
+            <TextBlock/>
+        </DockPanel>
+    </Grid>
+</wnd:MetroWindow>

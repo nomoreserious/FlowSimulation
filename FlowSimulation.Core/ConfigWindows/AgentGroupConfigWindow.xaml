@@ -1,0 +1,103 @@
+﻿<Window x:Class="FlowSimulation.ConfigWindows.AgentGroupConfigWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignHeight="350" d:DesignWidth="320" 
+             MinWidth="320" Style="{StaticResource ChildWindowStyle}" Title="Редактирование группы агентов" Height="410" Width="320">
+    <Grid Background="WhiteSmoke">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock VerticalAlignment="Center" Padding="5,3" Text="Имя группы агентов"/>
+        <TextBox Margin="2" Grid.Column="1" Text="{Binding Path=Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBlock VerticalAlignment="Center" Padding="5,3" Text="Управление созданием" Grid.Row="1" />
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+            <RadioButton Margin="5,3" Content="По таймеру" />
+            <RadioButton Margin="5,3" Content="По сети" IsChecked="{Binding Path=IsNetworkGroup,Mode=TwoWay}"/>
+        </StackPanel>
+
+        <Button Grid.Row="3" Grid.ColumnSpan="2" Margin="3,1" Content="Распределение объема пассажиропотока" >
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsNeworkGroup}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center">
+            <StackPanel.Style>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsNeworkGroup}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <TextBlock VerticalAlignment="Center" Padding="5,3" Text="Хост"/>
+            <TextBox MinWidth="150" Text="{Binding Path=IPAddress,Mode=TwoWay}" />
+            <TextBlock VerticalAlignment="Center" Padding="5,3" Text="Порт"/>
+            <TextBox MinWidth="50" MaxLength="5" Text="{Binding Path=Port,Mode=TwoWay}" />
+        </StackPanel>
+        
+        <TextBlock Grid.Row="4" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="5,3" Text="Распределение структуры пассажиропотока"/>
+        <DataGrid Grid.Row="5" Grid.ColumnSpan="2" MinHeight="200" ItemsSource="">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="1*" Header="Вид агента">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Agent.Name}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}, Path=DataContext.Agents}"
+                                      SelectedItem="{Binding Path=Agent}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="60" Header="Процент">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Agent.Persent,Mode=OneWay}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Path=Agent.Persent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="1*" Header="Настройки">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Настроить" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}, Path=DataContext.SettingsCommand}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <DockPanel Grid.Row="6" Grid.ColumnSpan="2" Margin="0,3">
+            <Button DockPanel.Dock="Right" Content="Отмена" Width="100" IsCancel="True" />
+            <Button DockPanel.Dock="Right" Margin="3,0" Content="Ок" Width="100" IsDefault="True" Click="OkButtonClick"/>
+            <TextBlock/>
+        </DockPanel>
+    </Grid>
+</Window>

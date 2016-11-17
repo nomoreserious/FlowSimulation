@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{60FEF9C8-0BDD-489B-A552-E6594E22DF9A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FlowSimulation.Contracts</RootNamespace>
+    <AssemblyName>FlowSimulation.Contracts</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Agents\AgentBase.cs" />
+    <Compile Include="Agents\VehicleAgentBase.cs" />
+    <Compile Include="Attributes\AgentManagerMetadata.cs" />
+    <Compile Include="Agents\IAgent.cs" />
+    <Compile Include="Agents\IAgentManager.cs" />
+    <Compile Include="Attributes\ViewPortMetadata.cs" />
+    <Compile Include="Metadata\IAgentManagerMetadata.cs" />
+    <Compile Include="Configuration\IConfigurable.cs" />
+    <Compile Include="Configuration\ParamDescriptor.cs" />
+    <Compile Include="Generator.cs" />
+    <Compile Include="Metadata\IViewPortMetadata.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Attributes\ServiceManagerMetadata.cs" />
+    <Compile Include="Services\AgentServiceBase.cs" />
+    <Compile Include="Services\IConfigContext.cs" />
+    <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\IServiceManager.cs" />
+    <Compile Include="Metadata\IServiceManagerMetadata.cs" />
+    <Compile Include="Services\MapServiceBase.cs" />
+    <Compile Include="Services\ServiceBase.cs" />
+    <Compile Include="ViewPort\IViewPort.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\FlowSimulation.Helpers\FlowSimulation.Helpers.csproj">
+      <Project>{16218015-786A-4A07-9174-71F79A8A698C}</Project>
+      <Name>FlowSimulation.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlowSimulation.Enviroment\FlowSimulation.Enviroment.csproj">
+      <Project>{9B112C1F-65DC-4EF8-87BA-D52F7767788D}</Project>
+      <Name>FlowSimulation.Enviroment</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

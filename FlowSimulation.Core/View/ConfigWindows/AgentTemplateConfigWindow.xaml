@@ -1,0 +1,87 @@
+﻿<Window x:Class="FlowSimulation.ConfigWindows.AgentTemplateConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:wp="clr-namespace:FlowSimulation.Enviroment;assembly=FlowSimulation.Enviroment"
+        Title="Настройка шаблона агента" FontSize="14" MinWidth="335" MinHeight="150" WindowStyle="ToolWindow" ResizeMode="CanMinimize" Height="500" Width="480">
+    <Grid Background="#FFEEEEEE">
+        <Grid.Resources>
+            <Style x:Key="TextBoxStyle" TargetType="TextBox">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=tbCapasity,Path=IsEnabled}" Value="False">
+                        <Setter Property="TextBox.IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="50*" />
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="130" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="100*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Label Content="Имя шаблона" Grid.Row="0" />
+        <Label Content="Тип агентов" Grid.Row="1" />
+        <Label Content="Минимальная скорость агентов [км/ч]" Grid.Row="2" Grid.ColumnSpan="3"/>
+        <Label Content="Максимальная скорость агентов [км/ч]" Grid.Row="3" Grid.ColumnSpan="3"/>
+        <Label Content="Процент агентов данного типа в группе [0..1]" Grid.Row="4" Grid.ColumnSpan="3"/>
+        <Label Content="Емкость транспортного средства [чел]" Grid.Row="5" Grid.ColumnSpan="3"/>
+        <Label Content="Габариты ТС (длина, ширина, высота) [м]" Grid.Row="6" Grid.ColumnSpan="3"/>
+        <Label Content="Число элементов составного ТС [шт]" Grid.Row="7" Grid.ColumnSpan="4" />
+        <Label Content="Путевые точки агентов" Grid.Row="8" VerticalContentAlignment="Bottom" Padding="5,1" Grid.ColumnSpan="4" />
+        <TextBox Margin="3,1.5" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Name}"/>
+        <ComboBox Margin="3,1.5" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Name="cbType" SelectionChanged="cbType_SelectionChanged">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding TypeName}"></TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBox Margin="3,1.5" Grid.Row="2" Grid.Column="3" Text="{Binding MinSpeed}" />
+        <TextBox Margin="3,1.5" Grid.Row="3" Grid.Column="3" Text="{Binding MaxSpeed}"/>
+        <TextBox Margin="3,1.5" Grid.Row="4" Grid.Column="3" Text="{Binding Persent}"/>
+        <TextBox Name="tbCapasity" Margin="3,1.5" Grid.Row="5" Grid.Column="3" Text="{Binding Capasity}"/>
+        <TextBox Style="{StaticResource ResourceKey=TextBoxStyle}" Margin="3,1.5" Grid.Row="6" Width="40" HorizontalAlignment="Left" Grid.Column="3" Text="{Binding Length}"> </TextBox>
+        <TextBox Style="{StaticResource ResourceKey=TextBoxStyle}" Margin="3,1.5" Grid.Row="6" Width="40" HorizontalAlignment="Center" Grid.Column="3" Text="{Binding Width}"></TextBox>
+        <TextBox Style="{StaticResource ResourceKey=TextBoxStyle}" Margin="3,1.5" Grid.Row="6" Width="40" HorizontalAlignment="Right" Grid.Column="3" Text="{Binding Height}"></TextBox>
+        <TextBox Name="tbNumberOfCarriges" Margin="3,1.5" Grid.Row="7" Grid.Column="3" Text="{Binding NumberOfCarriges}"/>
+        <Button Margin="1,1,112,1" HorizontalAlignment="Right" Width="110" Grid.Row="10" Grid.ColumnSpan="4" Content="Сохранить" Click="ButtonSave_Click"></Button>
+        <Button Margin="1" HorizontalAlignment="Right" Width="110" Grid.Row="10" Grid.ColumnSpan="4" Content="Отмена" Click="ButtonCancel_Click"></Button>
+        <ListView BorderBrush="DimGray" BorderThickness="2" Grid.ColumnSpan="3" Grid.Row="9" Name="lvWayPointsList" ItemsSource="{Binding WayPointsList}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                                <Run Text="("></Run>
+                                <TextBlock Text="{Binding X}"></TextBlock>
+                                <Run Text=", "></Run>
+                                <TextBlock Text="{Binding Y}"></TextBlock>
+                                <Run Text=")     ["></Run>
+                                <TextBlock Text="{Binding PointWidth}"></TextBlock>
+                                <Run Text=" x "></Run>
+                                <TextBlock Text="{Binding PointHeight}"></TextBlock>
+                                <Run Text="]"></Run>
+                            </TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackPanel Grid.Column="3" Grid.Row="9" Orientation="Vertical">
+            <Button Margin="3,1.5" Height="30" Content="Править" Click="ButtonConfig_Click"></Button>
+            <Button Margin="3,1.5" Height="30" Content="Удалить" Click="ButtonDelete_Click"></Button>
+            <Button Margin="3,1.5" Height="30" Content="Поднять" Click="ButtonUp_Click"></Button>
+            <Button Margin="3,1.5" Height="30" Content="Опустить" Click="ButtonDown_Click"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

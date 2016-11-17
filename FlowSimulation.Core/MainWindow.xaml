@@ -1,0 +1,306 @@
+﻿<Window x:Class="FlowSimulation.MainWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:wpfEx="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"
+             Height="476" Width="808" Closing="Window_Closing"  Title="Модель" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Window.Resources>
+        
+        <LinearGradientBrush x:Key="UncheckedBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#99BCDBD1" Offset="0" />
+            <GradientStop Color="#99A6CACA" Offset="1" />
+            <GradientStop Color="#9971A696" Offset="0.492" />
+            <GradientStop Color="#998BCCD1" Offset="0.475" />
+        </LinearGradientBrush>
+        
+        <LinearGradientBrush x:Key="MouseOverBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFBCDBD1" Offset="0" />
+            <GradientStop Color="#FFA6CACA" Offset="1" />
+            <GradientStop Color="#FF71A696" Offset="0.492" />
+            <GradientStop Color="#FF8BCCD1" Offset="0.475" />
+        </LinearGradientBrush>
+        
+    </Window.Resources>
+    
+    <Grid Background="Silver">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="100*" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+        
+        <Menu>
+            <MenuItem Header="Файл">
+                <MenuItem Header="Новый сценарий" Command="{Binding Path=NewCommand}"></MenuItem>
+                <MenuItem Header="Открыть сценарий" Command="{Binding Path=OpenCommand}"></MenuItem>
+                <MenuItem  Header="Сохранить сценарий как..." Command="{Binding Path=SaveCommand}" CommandParameter="1" IsEnabled="{Binding ElementName=menuEnableVariator,Path=IsEnabled}"></MenuItem>
+                <MenuItem Header="Сохранить сценарий" Command="{Binding Path=SaveCommand}" CommandParameter="0" IsEnabled="{Binding ElementName=menuEnableVariator,Path=IsEnabled}"></MenuItem>
+                <Separator/>
+                <MenuItem Header="Сохранить изображение с карты" IsEnabled="{Binding ElementName=menuEnableVariator,Path=IsEnabled}" Click="MenuItem_Click"></MenuItem>
+                <MenuItem Header="Печать изображения с карты" IsEnabled="{Binding ElementName=menuEnableVariator,Path=IsEnabled}" Click="MenuItem_Click"></MenuItem>
+                <Separator/>
+                <MenuItem Header="На весь экран" IsCheckable="True" IsChecked="{Binding Path=UseFullScreenMode}"></MenuItem>
+                <Separator/>
+                <MenuItem Header="Выход" Command="Close" />
+            </MenuItem>
+            <MenuItem Header="Карта" IsEnabled="{Binding ElementName=menuEnableVariator,Path=IsEnabled}">
+                <MenuItem Header="Загрузить карту" Command="{Binding Path=LoadMapFromSVGFileCommand}"></MenuItem>
+                <MenuItem Header="Загрузить фоновое изображение" Click="MenuItem_Click"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Показывать стены" IsCheckable="True" IsChecked="{Binding Path=ShowWalls}"></MenuItem>
+                <MenuItem Header="Показывать фоновое изображение" IsCheckable="True" IsChecked="{Binding Path=ShowBackgroundImage}"></MenuItem>
+                <MenuItem Header="Показывать клеточную маску" IsCheckable="True" IsChecked="{Binding Path=ShowMapMask}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Агенты" IsEnabled="{Binding ElementName=menuEnableVariator,Path=IsEnabled}">
+                <MenuItem Header="Создать группу агентов" Click="MenuItem_Click"></MenuItem>
+                <MenuItem Header="Править группу агентов" Click="MenuItem_Click"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Использовать визуализацию агентов" IsCheckable="True" IsChecked="{Binding Path=UseAgentVisual}"></MenuItem>
+                <MenuItem Header="Использовать анимацию движения" IsCheckable="True" IsChecked="{Binding Path=UseAnimation}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Сервисы" IsEnabled="{Binding ElementName=menuEnableVariator,Path=IsEnabled}">
+                <MenuItem Header="Создать сервис" Click="MenuItem_Click"></MenuItem>
+                <MenuItem Header="Править сервис" Click="MenuItem_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Сценарий" IsEnabled="{Binding ElementName=menuEnableVariator,Path=IsEnabled}">
+                <MenuItem Header="Настройка эксперимента" Click="MenuItem_Click"></MenuItem>
+                <MenuItem Header="Править дорожную сеть" Click="MenuItem_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Анализ и статистика" Name="menuEnableVariator">
+                <MenuItem Header="Просмотреть статистику" Click="MenuItem_Click"></MenuItem>
+                <MenuItem Header="Сохранить результаты анализа" Click="MenuItem_Click"></MenuItem>
+            </MenuItem>
+        </Menu>
+        
+        <ToolBar Grid.Row="1" IsEnabled="{Binding ElementName=menuEnableVariator,Path=IsEnabled}">           
+            <ToolBar.Resources>
+
+                <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type ToggleButton}}" x:Key="Toggle">
+                    <Setter Property="Focusable" Value="False"/>
+                    <Setter Property="FontSize" Value="24"/>
+                    <Setter Property="Foreground" Value="#773B3C7C"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type RadioButton}">
+                                <Border BorderThickness="1.5" BorderBrush="DimGray" CornerRadius="5" Background="Transparent">
+                                    <ContentPresenter Height="30" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FFBCDBD1" Offset="0" />
+                                        <GradientStop Color="#FFA6CACA" Offset="1" />
+                                        <GradientStop Color="#FF71A696" Offset="0.492" />
+                                        <GradientStop Color="#FF8BCCD1" Offset="0.475" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+                
+                <Style x:Key="BorderStyle" TargetType="{x:Type Border}">
+                    <Setter Property="Background" Value="{StaticResource ResourceKey=UncheckedBrush}"/>
+                    <Setter Property="CornerRadius" Value="5"></Setter>
+                    <Setter Property="BorderBrush" Value="DimGray"></Setter>
+                    <Setter Property="BorderThickness" Value="1.5"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ResourceKey=MouseOverBrush}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+                
+                <ControlTemplate TargetType="{x:Type Button}" x:Key="ButtonsTemlate">
+                    <Border Style="{StaticResource ResourceKey=BorderStyle}">
+                        <ContentPresenter Height="30" Width="30" Content="{TemplateBinding Content}"/>
+                    </Border>
+                </ControlTemplate>
+                
+                <ControlTemplate TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonsTemlate">
+                    <Border Style="{StaticResource ResourceKey=BorderStyle}">
+                        <ContentPresenter Height="30" Width="30" Content="{TemplateBinding Content}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ToggleButton.IsChecked" Value="False">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <Path Fill="#FF3B3C7C" Data="M 10,4 22,15 10,26 10,4"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsChecked" Value="True">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <Path Fill="#FF3B3C7C" Data="M 13,4 13,26 8,26 8,4 13,4 18,4 23,4 23,26 18,26 18,4"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+                
+            </ToolBar.Resources>            
+            
+            <Button Width="36" Height="36" Margin="2,0" Template="{StaticResource ResourceKey=ButtonsTemlate}" Command="{Binding Path=StopCommand}">
+                <Path Fill="#FF3B3C7C" Data="M 4,16 15,5 26,16 4,16 4,20 4,24 26,24 26,20 4,20"/>
+            </Button>
+            
+            <Button Width="36" Height="36" Margin="2,0" Template="{StaticResource ResourceKey=ButtonsTemlate}" Command="{Binding Path=SlowerCommand}">
+                <Path Fill="#FF3B3C7C" Data="M 12,15 24,26 24,4 12,15 12,6 4,15 12,24"/>
+            </Button>
+            
+            <ToggleButton Width="36" Height="36" Margin="2,0" Template="{StaticResource ResourceKey=ToggleButtonsTemlate}" Command="{Binding Path=PlayCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},Path=IsChecked}"/>
+            
+            <Button Width="36" Height="36" Margin="2,0" Template="{StaticResource ResourceKey=ButtonsTemlate}" Command="{Binding Path=FasterCommand}">
+                <Path Fill="#FF3B3C7C" Data="M 18,15 6,26 6,4 18,15 18,6 26,15 18,24"/>
+            </Button>
+            
+            <Rectangle Width="1" Fill="Gray" Margin="3,0" ></Rectangle>
+
+            <RadioButton Width="36" Height="36" Margin="2,0" Style="{StaticResource Toggle}" Content="2D"/>
+
+            <RadioButton Width="36" Height="36" Margin="2,0" Style="{StaticResource Toggle}" Content="3D" IsChecked="{Binding Path=Use3D,Mode=TwoWay}"/>           
+        </ToolBar>
+
+        <wpfEx:ZoomControl Name="pnl2D" Background="WhiteSmoke" Margin="4,2,4,0" Grid.Row="2">
+            <Canvas Name="pnlMap"/>
+        </wpfEx:ZoomControl>
+        
+        <Grid Grid.Row="2" Name="pnl3D" Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="180" />
+                <ColumnDefinition Width="100*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="2,0,5,0" Background="WhiteSmoke">
+                <TextBlock FontSize="16" Text="Позиция камеры"/>
+                <Canvas Background="DimGray" Height="100" Name="CamLocationGrid" MouseMove="CamLocationGrid_MouseMove">
+                    <Ellipse Name="LocationEll" Fill="Red" Canvas.Top="45" Canvas.Left="85" Width="10" Height="10" ></Ellipse>
+                </Canvas>
+                <Separator></Separator>
+                <TextBlock FontSize="14" Text="Высота"/>
+                <Slider x:Name="sldrUpDown" Maximum="500" Minimum="30" Value="{Binding Path=CameraLocation.Y,Mode=OneWayToSource}" ></Slider>
+                <!--<TextBlock FontSize="14" Text="Растояние"/>
+                <Slider x:Name="sldrZoom" Maximum="400" Minimum="30" Value="133" ValueChanged="Position1_ValueChanged"></Slider>
+                <TextBlock FontSize="14" Text="Угол"/>
+                <Slider x:Name="sldrRotate" Maximum="540" Minimum="-180" Value="180" ValueChanged="Position1_ValueChanged"></Slider>
+                <TextBlock FontSize="16" Text="Позиция освещения"/>-->
+                <!--<Separator></Separator>
+                <TextBlock FontSize="14" Text="Широта"/>
+                <Slider x:Name="sldrXLightDirection" Maximum="30" Minimum="-30" Value="0" ValueChanged="LightDirection_ValueChanged"></Slider>-->
+                <TextBlock FontSize="14" Text="Долгота"/>
+                <Slider x:Name="sldrZLightDirection" Maximum="300" Minimum="-60" Value="-60" ValueChanged="sldrZLightDirection_ValueChanged"></Slider>
+            </StackPanel>
+            <GridSplitter Width="3" Background="Gray" HorizontalAlignment="Right" />
+            <Viewport3D RenderOptions.EdgeMode="Aliased" RenderOptions.CachingHint="Cache" Grid.Column="1" Name="mainViewport" IsHitTestVisible="False" >
+                <Viewport3D.Camera>
+                    <PerspectiveCamera LookDirection="0,-123.7,-137.2" UpDirection="0,1,0" NearPlaneDistance="1" Position="0,123.7,137.2" FieldOfView="80"/>
+                </Viewport3D.Camera>
+                <ModelVisual3D>
+                    <ModelVisual3D.Content>
+                        <Model3DGroup>
+                            <AmbientLight Color="#77777777"/>
+                            <DirectionalLight x:Name="DirLight" Color="White" Direction="{Binding Path=CameraDirection,Mode=OneWay}" />
+                        </Model3DGroup>
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+            </Viewport3D>
+        </Grid>
+        
+        <Grid x:Name="FirstGrid" Visibility="Collapsed" Background="DimGray" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFCDDBD7" Offset="0" />
+                                <GradientStop Color="#00696969" Offset="1" />
+                                <GradientStop Color="#D0A9CFD1" Offset="0.50001" />
+                                <GradientStop Color="#FF97CECE" Offset="0.49999" />
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FFAEDBCC" Offset="0" />
+                                        <GradientStop Color="#00696969" Offset="1" />
+                                        <GradientStop Color="#D28BD4D4" Offset="0.50001" />
+                                        <GradientStop Color="#FF85CBD8" Offset="0.49999" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Resources>
+            <Border x:Name="b1" Padding="0,8" Width="220" Height="220" MouseUp="border_MouseUp">
+                <Border.RenderTransform>
+                    <SkewTransform AngleY="-15"  CenterX="220" ></SkewTransform>
+                </Border.RenderTransform>
+                <TextBlock VerticalAlignment="Top" Text="Новый сценарий" FontSize="36" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold" Foreground="#FF3B3C7C"></TextBlock>
+            </Border>
+            <Border x:Name="b2" Padding="0,8" Grid.Column="1" Width="220" Height="220" MouseUp="border_MouseUp">
+                <TextBlock VerticalAlignment="Top" Text="Открыть сценарий" FontSize="36" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold" Foreground="#FF3B3C7C"></TextBlock>
+            </Border>
+            <Border x:Name="b3" Padding="0,8" Grid.Column="2" Width="220" Height="220" MouseUp="border_MouseUp">
+                <Border.RenderTransform>
+                    <SkewTransform AngleY="15" CenterX="0"></SkewTransform>
+                </Border.RenderTransform>
+                <TextBlock VerticalAlignment="Top" Text="Открыть последний" FontSize="36" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold" Foreground="#FF3B3C7C"></TextBlock>
+            </Border>
+        </Grid>
+        
+        <DockPanel Grid.Row="3" >
+
+            <DockPanel.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFE4E4E4" Offset="0" />
+                    <GradientStop Color="#FFB3B3B3" Offset="1" />
+                    <GradientStop Color="#FFCBCBCB" Offset="0.6" />
+                    <GradientStop Color="#FFD7D7D7" Offset="0.5" />
+                </LinearGradientBrush>
+            </DockPanel.Background>
+            <Path DockPanel.Dock="Left" Margin="3,0" Stroke="Black" Width="16" Height="16" Data="M 8,0 l 0,16 0,-8 -8,0 16,0" />
+            <TextBlock DockPanel.Dock="Left" Padding="7,3" Name="lblMouseLocation" />
+            <Rectangle DockPanel.Dock="Left" Margin="3,0" Stroke="Black" Grid.Column="1" Width="16" Height="14" />
+            <TextBlock DockPanel.Dock="Left" Padding="7,3" Name="tbMapSize" Grid.Column="1"/>
+
+            <TextBlock DockPanel.Dock="Left" Padding="5,3" Grid.Column="6">
+                <Run>Скорость:</Run>
+                <TextBlock FontWeight="Bold"  x:Name="tbSpeedRation" Text="{Binding SpeedRatio, Mode=OneWay}"></TextBlock>
+                <Run FontWeight="Bold">X</Run>
+            </TextBlock>
+            <TextBlock DockPanel.Dock="Left" Padding="5,3" Grid.Column="5">
+                <Run>Агентов на карте:</Run>
+                <TextBlock FontWeight="Bold" x:Name="tbAgentsCount"></TextBlock>
+            </TextBlock>
+            <TextBlock DockPanel.Dock="Right" Padding="5,3" Grid.Column="4" >
+                <Run>Время:</Run>
+                <TextBlock FontWeight="Bold" x:Name="tbSimulationTime"></TextBlock>
+            </TextBlock>
+            <!--<Rectangle   Fill="DarkGray" Grid.Column="6" Width="2" />-->
+            <!--<Rectangle HorizontalAlignment="Left" Fill="DarkGray" Grid.Column="1" Width="2" />-->
+            <!--<Rectangle HorizontalAlignment="Left" Fill="DarkGray" Grid.Column="2" Width="2" />-->
+            <TextBlock Grid.Column="3" Padding="5,3">
+                <Run>Benchmark:</Run>
+                <TextBlock FontWeight="Bold" x:Name="tbBenchmark" ></TextBlock>
+            </TextBlock>
+        </DockPanel>
+        
+    </Grid>
+</Window>

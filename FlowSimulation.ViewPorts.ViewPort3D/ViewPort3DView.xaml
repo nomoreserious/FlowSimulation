@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="FlowSimulation.ViewPort.ViewPort3D.ViewPort3DView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:h3d="http://helixtoolkit.codeplex.com"
+             xmlns:acb="clr-namespace:FlowSimulation.Helpers.AttachedCommandBehavior;assembly=FlowSimulation.Helpers"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="268">
+    <Grid Background="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Expander Background="WhiteSmoke" ExpandDirection="Right">
+            <Expander.Header>
+                <TextBlock Padding="0,0,0,2" Text="Настройки камеры">
+                    <TextBlock.LayoutTransform>
+                        <RotateTransform Angle="90"/>
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
+            </Expander.Header>
+            <StackPanel Margin="2,0" Width="180">
+                <TextBlock Text="Позиция"/>
+                <!--acb:CommandBehavior.Event="ValueChanged"
+                        acb:CommandBehavior.Command="{Binding Path=CameraXLocationChanged}"
+                        acb:CommandBehavior.CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},Path=Value}"-->
+                <Canvas Background="DimGray" Height="100">
+                    <Ellipse Fill="Red" Canvas.Top="45" Canvas.Left="85" Width="10" Height="10" ></Ellipse>
+                </Canvas>
+
+                
+                <!--<TextBlock FontSize="14" Text="Растояние"/>
+                <Slider x:Name="sldrZoom" Maximum="400" Minimum="30" Value="133" ValueChanged="Position1_ValueChanged"></Slider>
+                <TextBlock FontSize="14" Text="Угол"/>
+                <Slider x:Name="sldrRotate" Maximum="540" Minimum="-180" Value="180" ValueChanged="Position1_ValueChanged"></Slider>
+                <TextBlock FontSize="16" Text="Позиция освещения"/>-->
+                <!--<Separator></Separator>
+                <TextBlock FontSize="14" Text="Широта"/>
+                <Slider x:Name="sldrXLightDirection" Maximum="30" Minimum="-30" Value="0" ValueChanged="LightDirection_ValueChanged"></Slider>-->
+                <TextBlock Text="Высота"/>
+                <Slider Maximum="800" Minimum="30" Value="{Binding Path=CameraWidth,Mode=TwoWay}" ></Slider>
+                <TextBlock Text="Долгота"/>
+                <Slider Maximum="800" Minimum="0" Value="{Binding Path=CameraDistance,Mode=TwoWay}"/>
+                <TextBlock Text="Освещение"/>
+                <Slider Maximum="360" Minimum="0" Value="{Binding Path=LightAngle,Mode=TwoWay}"/>
+            </StackPanel>
+        </Expander>
+        <h3d:HelixViewport3D Grid.Column="1" RenderOptions.EdgeMode="Aliased" RenderOptions.CachingHint="Cache" ShowFrameRate="True" ShowTriangleCountInfo="True" CameraMode="Inspect" ShowCameraInfo="False" ShowCoordinateSystem="True" ShowCameraTarget="True">
+            <h3d:HelixViewport3D.Camera>
+                <PerspectiveCamera Position="{Binding Path=CameraPosition,Mode=OneWay}" LookDirection="{Binding Path=CameraDirection,Mode=OneWay}" UpDirection="0,1,0" NearPlaneDistance="1" FieldOfView="90"/>
+            </h3d:HelixViewport3D.Camera>
+            <h3d:HelixViewport3D.Children>
+                <!--Свет-->
+                <ModelVisual3D>
+                    <ModelVisual3D.Content>
+                        <Model3DGroup>
+                            <AmbientLight Color="#77666666"/>
+                            <DirectionalLight Color="Snow" Direction="{Binding Path=LightDirection,Mode=OneWay}" />
+                        </Model3DGroup>
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+                <!--Фон-->
+                <ModelVisual3D Content="{Binding Path=Background}"/>
+                <!--Агенты-->
+                <ModelVisual3D Content="{Binding Path=Agents}"/>
+            </h3d:HelixViewport3D.Children>
+        </h3d:HelixViewport3D>
+        <!--<Viewport3D RenderOptions.EdgeMode="Aliased" RenderOptions.CachingHint="Cache" Grid.Column="1" IsHitTestVisible="False" >
+            <Viewport3D.Camera>
+                <PerspectiveCamera Position="{Binding Path=CameraPosition,Mode=OneWay}" LookDirection="{Binding Path=CameraDirection,Mode=OneWay}" UpDirection="0,1,0" NearPlaneDistance="1" FieldOfView="80"/>
+            </Viewport3D.Camera>
+            <Viewport3D.Children>
+                Свет
+                <ModelVisual3D>
+                    <ModelVisual3D.Content>
+                        <Model3DGroup>
+                            <AmbientLight Color="#22222222"/>
+                            <DirectionalLight Color="Snow" Direction="{Binding Path=LightDirection,Mode=OneWay}" />
+                        </Model3DGroup>
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+                Фон
+                <ModelVisual3D Content="{Binding Path=Background}"/>
+                Агенты
+                <ModelVisual3D Content="{Binding Path=Agents}"/>
+            </Viewport3D.Children>
+        </Viewport3D> -->
+    </Grid>
+</UserControl>

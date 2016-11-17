@@ -1,0 +1,254 @@
+﻿<wnd:MetroWindow x:Class="FlowSimulation.View.SimulationView"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:syspar="clr-namespace:System.Windows;assembly=PresentationFramework"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                 xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                 xmlns:wnd="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 xmlns:cmd="clr-namespace:FlowSimulation.Helpers.AttachedCommandBehavior;assembly=FlowSimulation.Helpers"
+                 Background="{DynamicResource BackgroundBrush}"
+                 Title="{Binding Path=WindowTitle}"
+                 mc:Ignorable="d" 
+                 WindowStartupLocation="CenterScreen" WindowState="Maximized" Icon="/FlowSimulation;component/Images/icon.png">
+    <wnd:MetroWindow.Resources>
+        <Style TargetType="Window">
+            <Setter Property="WindowStyle" Value="SingleBorderWindow"/>
+            <Setter Property="ResizeMode" Value="CanResize"/>
+
+            <Setter Property="Width" Value="800"/>
+            <Setter Property="Height" Value="600"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=UseFullScreenMode,Mode=OneWay}" Value="False">
+                    <Setter Property="WindowStyle" Value="SingleBorderWindow"/>
+                    <Setter Property="ResizeMode" Value="CanResize"/>
+                    <Setter Property="Top" Value="0"/>
+                    <Setter Property="Left" Value="0"/>
+                    <Setter Property="Width" Value="800"/>
+                    <Setter Property="Height" Value="600"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=UseFullScreenMode,Mode=OneWay}" Value="True">
+                    <Setter Property="WindowStyle" Value="None"/>
+                    <Setter Property="ResizeMode" Value="NoResize"/>
+                    <Setter Property="Window.Top" Value="0"/>
+                    <Setter Property="Window.Left" Value="0"/>
+                    <Setter Property="Window.Width" Value="{x:Static SystemParameters.PrimaryScreenWidth}"/>
+                    <Setter Property="Window.Height" Value="{x:Static SystemParameters.PrimaryScreenHeight}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </wnd:MetroWindow.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Menu>
+            <MenuItem Header="Файл">
+                <MenuItem Header="Новый сценарий" Command="{Binding Path=NewCommand}"/>
+                <MenuItem Header="Открыть сценарий" Command="{Binding Path=OpenCommand}"/>
+                <MenuItem Header="Сохранить сценарий" Command="{Binding Path=SaveCommand}"/>
+                <!--<Separator/>
+                    <MenuItem Header="Сохранить изображение с карты" IsEnabled="{Binding ElementName=menuEnableVariator,Path=IsEnabled}" ></MenuItem>
+                    <MenuItem Header="Печать изображения с карты" IsEnabled="{Binding ElementName=menuEnableVariator,Path=IsEnabled}"></MenuItem>
+                    <Separator/>-->
+                <!--<MenuItem Header="На весь экран" IsCheckable="True" IsChecked="{Binding Path=UseFullScreenMode,Mode=TwoWay}"></MenuItem>-->
+                <Separator/>
+                <MenuItem Header="Выход" Command="{Binding Path=CloseCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Сценарий" Visibility="{Binding Path=ScenarioLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <MenuItem Header="Настройка сервисов" Command="{Binding Path=ServiceConfigCommand}"/>
+                <MenuItem Header="Настройка карты" Command="{Binding Path=MapConfigCommand}"/>
+                <MenuItem Header="Настройка сети дорог" Command="{Binding Path=RoadGraphConfigCommand}"/>
+                <MenuItem Header="Настройка графа корренспонденций" Command="{Binding Path=TransitionGraphConfigCommand}"/>
+                <!--<MenuItem Header="Загрузить фоновое изображение" Click="MenuItem_Click"></MenuItem>-->
+                <Separator/>
+                <!--<MenuItem Header="Показывать стены" IsCheckable="True" IsChecked="{Binding Path=ShowWalls}"></MenuItem>
+                <MenuItem Header="Показывать фоновое изображение" IsCheckable="True" IsChecked="{Binding Path=ShowBackgroundImage}"></MenuItem>
+                <MenuItem Header="Показывать клеточную маску" IsCheckable="True" IsChecked="{Binding Path=ShowMapMask}"></MenuItem>-->
+            </MenuItem>
+            <MenuItem Header="Агенты" Visibility="{Binding Path=ScenarioLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <MenuItem Header="Настройка групп агентов" Command="{Binding Path=AgentGroupConfigCommand}"/>
+                <!--<MenuItem Header="Создать группу агентов" Click="MenuItem_Click"></MenuItem>
+                <MenuItem Header="Править группу агентов" Click="MenuItem_Click"></MenuItem>
+                <Separator/>-->
+                <MenuItem Header="Показывать на карте" IsCheckable="True" IsChecked="{Binding Path=UseVisualization}"></MenuItem>
+                <!--<MenuItem Header="Использовать анимацию движения" IsCheckable="True" IsChecked="{Binding Path=UseAnimation}"></MenuItem>-->
+            </MenuItem>
+
+            <MenuItem Header="Модули" Visibility="{Binding Path=ScenarioLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <MenuItem Header="Настройка модулей" Command="{Binding Path=ModulesConfigCommand}"/>
+            </MenuItem>
+
+            <!--<MenuItem Header="Сервисы" IsEnabled="{Binding ElementName=menuEnableVariator,Path=IsEnabled}">
+                    <MenuItem Header="Создать сервис" Click="MenuItem_Click"></MenuItem>
+                    <MenuItem Header="Править сервис" Click="MenuItem_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Сценарий" IsEnabled="{Binding ElementName=menuEnableVariator,Path=IsEnabled}">
+                    <MenuItem Header="Настройка эксперимента" Click="MenuItem_Click"></MenuItem>
+                    <MenuItem Header="Править дорожную сеть" Click="MenuItem_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Анализ и статистика" Name="menuEnableVariator">
+                    <MenuItem Header="Просмотреть статистику" Click="MenuItem_Click"></MenuItem>
+                    <MenuItem Header="Сохранить результаты анализа" Click="MenuItem_Click"></MenuItem>
+                </MenuItem>-->
+        </Menu>
+
+        <ToolBarTray Grid.Row="1">
+            <ToolBarTray.Resources>
+                <Style x:Key="play_pauseButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <Path Fill="#FF333333" Stretch="Uniform" Data="M10,4 22,15 10,26z"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <Path Fill="#FF333333" Stretch="Uniform" Data="M 13,4 13,26 8,26 8,4 13,4 18,4 23,4 23,26 18,26 18,4"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ToolBarTray.Resources>
+
+            <ToolBar>
+                <Button Width="28" Height="28" Padding="0" Margin="1,0" ToolTip="Новый" Command="{Binding Path=NewCommand}">
+                    <Image Source="/FlowSimulation;component/Images/document_sans_32.png" />
+                </Button>
+                <Button Width="28" Height="28" Padding="0" Margin="1,0" ToolTip="Открыть" Command="{Binding Path=OpenCommand}">
+                    <Image Source="/FlowSimulation;component/Images/folder_sans_32.png" />
+                </Button>
+                <Button Width="28" Height="28" Padding="0" Margin="1,0" ToolTip="Сохранить" Command="{Binding Path=SaveCommand}">
+                    <Image Source="/FlowSimulation;component/Images/floppy_disk_32.png" />
+                </Button>
+            </ToolBar>
+
+            <ToolBar Visibility="{Binding Path=ScenarioLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Button Width="28" Height="28" Padding="1" Margin="1,0" ToolTip="Сбросить" Command="{Binding Path=StopCommand}">
+                    <Path Fill="#FF333333" Stretch="Uniform" Data="M4,16 15,5 26,16z M4,20 4,24 26,24 26,20z"/>
+                </Button>
+
+                <Button Width="28" Height="28" Padding="1" Margin="1,0" ToolTip="Медленнее" Command="{Binding Path=SlowerCommand}">
+                    <Path Fill="#FF333333" Stretch="Uniform" Data="M 12,15 24,26 24,4 12,15 12,6 4,15 12,24"/>
+                </Button>
+
+                <ToggleButton Width="28" Height="28" Padding="1" Margin="1,0" ToolTip="Старт/Стоп" Style="{StaticResource play_pauseButtonStyle}" Command="{Binding Path=PlayOrPauseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self},Path=IsChecked}"/>
+
+                <Button Width="28" Height="28" Padding="1" Margin="1,0" ToolTip="Быстрее" Command="{Binding Path=FasterCommand}">
+                    <Path Fill="#FF333333" Stretch="Uniform" Data="M 18,15 6,26 6,4 18,15 18,6 26,15 18,24"/>
+                </Button>
+            </ToolBar>
+
+            <ToolBar ItemsSource="{Binding Path=ViewPortCollection}" Visibility="{Binding Path=ScenarioLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ToolBar.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}"
+                                     ToolTip="{Binding Path=Name}" Padding="0" Margin="1,0"
+                                     GroupName="viewPort" Width="28" Height="28"
+                                     cmd:CommandBehavior.Event="Checked"
+                                     cmd:CommandBehavior.Command="{Binding Path=CheckedCommand,Mode=OneTime}" 
+                                     cmd:CommandBehavior.CommandParameter="{Binding Path=Code,Mode=OneWay}">
+                            <Image Source="{Binding Path=Icon}"/>
+                        </RadioButton>
+                    </DataTemplate>
+                </ToolBar.ItemTemplate>
+            </ToolBar>
+
+        </ToolBarTray>
+
+        <ContentControl Grid.Row="2" Content="{Binding Path=CurrentViewPortControl,Mode=OneWay}" Background="#FFF6D7E4" />
+
+        <!--<TabControl Grid.Row="2">
+            <TabItem Header="Визуализация">
+                <ContentControl Content="{Binding Path=CurrentViewPortControl,Mode=OneWay}" Background="#FFF6D7E4" />
+            </TabItem>
+        </TabControl>-->
+
+
+        <StatusBar Grid.Row="3" Background="Gainsboro" Visibility="{Binding Path=ScenarioLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+            <!--<DockPanel.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFE4E4E4" Offset="0" />
+                        <GradientStop Color="#FFB3B3B3" Offset="1" />
+                        <GradientStop Color="#FFCBCBCB" Offset="0.6" />
+                        <GradientStop Color="#FFD7D7D7" Offset="0.5" />
+                    </LinearGradientBrush>
+                </DockPanel.Background>-->
+            <!--<Path DockPanel.Dock="Left" Margin="3,0" Stroke="Black" Width="16" Height="16" Data="M 8,0 l 0,16 0,-8 -8,0 16,0" />
+            <TextBlock DockPanel.Dock="Left" Padding="7,3" Name="lblMouseLocation" />
+            <Rectangle DockPanel.Dock="Left" Margin="3,0" Stroke="Black" Grid.Column="1" Width="16" Height="14" />
+            <TextBlock DockPanel.Dock="Left" Padding="7,3" Name="tbMapSize" Grid.Column="1"/>-->
+
+            <!--<StatusBarItem DockPanel.Dock="Left" >
+                <TextBlock>
+                    <Run BaselineAlignment="Center" Text="Карта: "/>
+                    <TextBlock Text="{Binding Path=MapSizeInfo, Mode=OneWay}"/>
+                </TextBlock>
+            </StatusBarItem>-->
+
+            <StatusBarItem DockPanel.Dock="Left" >
+                <TextBlock>
+                    <Run BaselineAlignment="Center" Text="Скорость:"/>
+                    <TextBlock FontWeight="Bold" Text="{Binding SpeedRatio, Mode=OneWay}"/>
+                    <Run BaselineAlignment="Center" Text="x"/>
+                </TextBlock>
+            </StatusBarItem>
+
+            <StatusBarItem DockPanel.Dock="Left" >
+                <TextBlock>
+                    <Run BaselineAlignment="Center" Text="Количество агентов:"/>
+                    <TextBlock FontWeight="Bold" Text="{Binding Path=AgentsCount,Mode=OneWay}"/>
+                </TextBlock>
+            </StatusBarItem>
+            <StatusBarItem DockPanel.Dock="Right" >
+                <TextBlock>
+                    <Run BaselineAlignment="Center" Text="Время:"/>
+                    <TextBlock FontWeight="Bold" Text="{Binding Path=SimulationTime,Mode=OneWay}"/>
+                </TextBlock>
+            </StatusBarItem>
+            <StatusBarItem DockPanel.Dock="Right" >
+                <TextBlock>
+                    <Run BaselineAlignment="Center" Text="Benchmark:"/>
+                    <TextBlock FontWeight="Bold" Text="{Binding Path=Benchmark,Mode=OneWay}"/>
+                </TextBlock>
+            </StatusBarItem>
+            <StatusBarItem/>
+            <!--<Rectangle   Fill="DarkGray" Grid.Column="6" Width="2" />-->
+            <!--<Rectangle HorizontalAlignment="Left" Fill="DarkGray" Grid.Column="1" Width="2" />-->
+            <!--<Rectangle HorizontalAlignment="Left" Fill="DarkGray" Grid.Column="2" Width="2" />-->
+            <!--<TextBlock Grid.Column="3" Padding="5,3">
+                <Run>Benchmark:</Run>
+                <TextBlock FontWeight="Bold" x:Name="tbBenchmark" ></TextBlock>
+            </TextBlock>-->
+        </StatusBar>
+
+        <Border Grid.RowSpan="4" Background="#bbffffff">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsBusy,Mode=OneWay}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Padding="0,0,0,7" FontSize="14" FontWeight="SemiBold" Text="{Binding Path=BusyContent,Mode=OneWay}" TextAlignment="Center"/>
+                <wnd:ProgressRing IsActive="True"/>
+            </StackPanel>
+        </Border>
+
+    </Grid>
+
+</wnd:MetroWindow>

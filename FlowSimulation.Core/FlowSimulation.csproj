@@ -1,0 +1,403 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{454179E7-69EB-4F88-9DE9-6008D20DAE9B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FlowSimulation</RootNamespace>
+    <AssemblyName>FlowSimulation</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://flowsimulation.codeplex.com/releases/clickonce/</InstallUrl>
+    <ProductName>FlowSimulation</ProductName>
+    <PublisherName>МИИТ %28ИТС%29</PublisherName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationVersion>0.2.1.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>1</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>FlowSimulation.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>41DF57D574B98F7C24C8A6B742519C14F52A74E8</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>FlowSimulation_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="HelixToolkit.Wpf, Version=2013.1.29.1, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\HelixToolkit.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\packages\MahApps.Metro.0.10.1.1\lib\net40\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot, Version=2013.1.100.1, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OxyPlot.Core.2013.1.100.1\lib\portable-net4+sl4+wp71+win8\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=2013.1.100.1, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OxyPlot.Wpf.2013.1.100.1\lib\NET40\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Xps, Version=2013.1.100.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OxyPlot.Wpf.2013.1.100.1\lib\NET40\OxyPlot.Xps.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QuickGraph, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Data">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Graphviz">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Graphviz.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Serialization">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\packages\MahApps.Metro.0.10.1.1\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WPFExtensions">
+      <HintPath>..\packages\WPFExtensions.1.0.0\lib\WPFExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Analisis\AnalisisCollector.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Analisis\AnalisisConstants.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Analisis\AnalisisViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Analisis\PlotContainer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Converters\AgentGroupInitConfigPanelSelector.cs" />
+    <Compile Include="Converters\EnumStringValueConverter.cs" />
+    <Compile Include="Converters\MapItemTemplateSelector.cs" />
+    <Compile Include="Converters\StringToBrushConverter.cs" />
+    <Compile Include="Core\SimulationTask.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="ViewModel\AgentGroupConfigViewModel.cs" />
+    <Compile Include="ViewModel\MapConfigViewModel.cs" />
+    <Compile Include="ViewModel\Settings\ModuleParams.cs" />
+    <Compile Include="ViewModel\Settings\ModulesConfigViewModel.cs" />
+    <Compile Include="ViewModel\RoadGraphConfigViewModel.cs" />
+    <Compile Include="ViewModel\ServiceConfigViewModel.cs" />
+    <Compile Include="ViewModel\Settings\ParamValueTemplateSelector.cs" />
+    <Compile Include="ViewModel\TransitionGraphConfigViewModel.cs" />
+    <Compile Include="ViewModel\WayPointViewModel.cs" />
+    <Compile Include="View\ConfigWindows\AgentGroupConfigWindow.xaml.cs">
+      <DependentUpon>AgentGroupConfigWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigWindows\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigWindows\DoubleSlider.cs" />
+    <Compile Include="Core\Generator.cs" />
+    <Compile Include="Core\Simulation.cs" />
+    <Compile Include="Managers\AgentManager.cs" />
+    <Compile Include="Managers\ServiceManager.cs" />
+    <Compile Include="Managers\ViewPortManager.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\SimulationViewModel.cs" />
+    <Compile Include="ViewModel\ToolBarItemViewModel.cs" />
+    <Compile Include="View\InitialPanel.xaml.cs">
+      <DependentUpon>InitialPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigWindows\MapConfigWindow.xaml.cs">
+      <DependentUpon>MapConfigWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigWindows\AgentsVolumeConfig.xaml.cs">
+      <DependentUpon>AgentsVolumeConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigWindows\ModulesConfigView.xaml.cs">
+      <DependentUpon>ModulesConfigView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigWindows\ServiceConfigWindow.xaml.cs">
+      <DependentUpon>ServiceConfigWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigWindows\TransitionCanvas.cs" />
+    <Compile Include="View\ConfigWindows\TransitionGraphConfigWindow.xaml.cs">
+      <DependentUpon>TransitionGraphConfigWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigWindows\WayPointConfigPanel.xaml.cs">
+      <DependentUpon>WayPointConfigPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigWindows\RoadGraphConfigWindow.xaml.cs">
+      <DependentUpon>RoadGraphConfigWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SimulationView.xaml.cs">
+      <DependentUpon>SimulationView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Page Include="Resources\Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigWindows\AgentGroupConfigWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\ResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigWindows\DialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\InitialPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigWindows\MapConfigWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigWindows\AgentsVolumeConfig.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ConfigWindows\ModulesConfigView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigWindows\ServiceConfigWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ConfigWindows\TransitionGraphConfigWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigWindows\WayPointConfigPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigWindows\RoadGraphConfigWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SimulationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Клиентский профиль Microsoft .NET Framework 4 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>Клиентский профиль .NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Установщик Windows 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlowSimulation.Contracts\FlowSimulation.Contracts.csproj">
+      <Project>{60FEF9C8-0BDD-489B-A552-E6594E22DF9A}</Project>
+      <Name>FlowSimulation.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlowSimulation.Enviroment\FlowSimulation.Enviroment.csproj">
+      <Project>{9B112C1F-65DC-4EF8-87BA-D52F7767788D}</Project>
+      <Name>FlowSimulation.Enviroment</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlowSimulation.Helpers\FlowSimulation.Helpers.csproj">
+      <Project>{16218015-786A-4A07-9174-71F79A8A698C}</Project>
+      <Name>FlowSimulation.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlowSimulation.Scenario\FlowSimulation.Scenario.csproj">
+      <Project>{30C03A4C-C14E-4F35-8A67-44309E0EEBA6}</Project>
+      <Name>FlowSimulation.Scenario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlowSimulation.Services.BusStop\FlowSimulation.Services.BusStop.csproj">
+      <Project>{B856FB0C-F3DE-4B5A-968A-62E66E91B15E}</Project>
+      <Name>FlowSimulation.Services.BusStop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlowSimulation.Services.Crosswalk\FlowSimulation.Services.Crosswalk.csproj">
+      <Project>{D80414F9-C015-4E85-A438-AAA85850D94E}</Project>
+      <Name>FlowSimulation.Services.Crosswalk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlowSimulation.Services.Queue\FlowSimulation.Services.Queue.csproj">
+      <Project>{93956C2B-7088-4C99-96D8-022C7346E677}</Project>
+      <Name>FlowSimulation.Services.Queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlowSimulation.ViewPort.SpectralDensity\FlowSimulation.ViewPort.SpectralDensity.csproj">
+      <Project>{4CAA300E-7D46-45AD-84DD-77F02AFE5293}</Project>
+      <Name>FlowSimulation.ViewPort.SpectralDensity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlowSimulation.ViewPorts.ViewPort2D\FlowSimulation.ViewPort.ViewPort2D.csproj">
+      <Project>{59616644-3740-4AC9-925F-F21C270E29DA}</Project>
+      <Name>FlowSimulation.ViewPort.ViewPort2D</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlowSimulation.ViewPorts.ViewPort3D\FlowSimulation.ViewPort.ViewPort3D.csproj">
+      <Project>{4EB93FC4-C9C3-49CD-A56B-0D9EB19600EA}</Project>
+      <Name>FlowSimulation.ViewPort.ViewPort3D</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SuperFastHuman\FlowSimulation.Agents.SuperFastHuman.csproj">
+      <Project>{AD71F2AE-601F-48A4-AE72-68292558ED28}</Project>
+      <Name>FlowSimulation.Agents.SuperFastHuman</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\add_file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\add_row.png" />
+    <Resource Include="Images\delete_row.png" />
+    <Resource Include="Images\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\download.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\splash.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+    <Resource Include="Images\document_sans_32.png" />
+    <Resource Include="Images\floppy_disk_32.png" />
+    <Resource Include="Images\folder_sans_32.png" />
+    <Resource Include="Images\fullscreen.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

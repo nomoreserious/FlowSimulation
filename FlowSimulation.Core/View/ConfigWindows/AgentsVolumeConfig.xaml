@@ -1,0 +1,51 @@
+﻿<wnd:MetroWindow x:Class="FlowSimulation.View.ConfigWindows.AgentsVolumeConfig"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:wnd="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             MinHeight="250" MinWidth="650" Title="Распределение объемов пассажиропотока по суткам" 
+        mc:Ignorable="d"  d:DesignHeight="250" d:DesignWidth="642">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <GroupBox Header="День недели">
+            <ListBox ItemsSource="{Binding Path=DaysOfWeekDistribution,Mode=OneWay}" SelectedItem="{Binding Path=SelectedDay,Mode=OneWayToSource}" DisplayMemberPath="DayName"/>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="Распределение">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                <Canvas MinWidth="432" MinHeight="140" Name="pnlGraphic" MouseMove="Grid_MouseMove" MouseLeave="Grid_MouseLeave" PreviewMouseLeftButtonDown="pnlMap_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="pnlMap_PreviewMouseLeftButtonUp" SizeChanged="pnlGraphic_SizeChanged">
+                    <Canvas.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="White" Offset="0" />
+                            <GradientStop Color="WhiteSmoke" Offset="1" />
+                        </LinearGradientBrush>
+                    </Canvas.Background>
+                </Canvas>
+            </ScrollViewer>
+        </GroupBox>
+        
+        <!--<ListView Name="lvInitPointList" Grid.Column="1" ItemsSource="{Binding InitPointDistribution}"></ListView>-->
+        <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
+            <TextBlock VerticalAlignment="Center"  DockPanel.Dock="Left">
+                <Run Text="  Чел/мин: "/>
+                <TextBlock Name="tbManPerMin" FontWeight="Bold"></TextBlock>
+            </TextBlock>
+            <TextBlock VerticalAlignment="Center" DockPanel.Dock="Left">
+                <Run Text="  Время: "/>
+                <TextBlock Name="tbTime" FontWeight="Bold"></TextBlock>
+            </TextBlock>
+
+            <Button DockPanel.Dock="Right" Margin="5,0,5,5" Padding="3" Content="Отмена" Width="100" IsCancel="True"></Button>
+            <Button DockPanel.Dock="Right" Margin="5,0,0,5" Padding="3" Content="Сохранить" Width="100" IsDefault="True" Click="Button_Click"></Button>
+
+            <TextBlock/>
+        </DockPanel>        
+    </Grid>
+</wnd:MetroWindow>

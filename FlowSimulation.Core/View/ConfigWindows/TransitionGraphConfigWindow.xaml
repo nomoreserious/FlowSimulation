@@ -1,0 +1,118 @@
+﻿<wind:MetroWindow x:Class="FlowSimulation.View.ConfigWindows.TransitionGraphConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:cvb="clr-namespace:FlowSimulation.Helpers.MVVM;assembly=FlowSimulation.Helpers"
+        xmlns:wpfex="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"
+        xmlns:cnvrt="clr-namespace:FlowSimulation.Converters"
+        xmlns:wind="http://metro.mahapps.com/winfx/xaml/controls"
+        cvb:CloseViewBehavior.CloseView="{Binding Path=CloseView}"
+        mc:Ignorable="d" d:DesignHeight="341" d:DesignWidth="652" >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/ResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <cnvrt:MapItemTemplateSelector x:Key="MapItemTemplateSelector">
+                <cnvrt:MapItemTemplateSelector.PointTemplate>
+                    <DataTemplate>
+                        <Ellipse Fill="Tomato" Width="{Binding Path=Width,Mode=OneWay}" Height="{Binding Path=Height,Mode=OneWay}">
+                            <Ellipse.Style>
+                                <Style TargetType="{x:Type Ellipse}">
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <Setter Property="Canvas.Left" Value="{Binding Path=X,Mode=OneWay}" />
+                                    <Setter Property="Canvas.Top" Value="{Binding Path=Y,Mode=OneWay}" />
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+                    </DataTemplate>
+                </cnvrt:MapItemTemplateSelector.PointTemplate>
+                <cnvrt:MapItemTemplateSelector.ServiceTemplate>
+                    <DataTemplate>
+                        <Path Data="M 3,0 8,0 11,4 8,8 3,8 0,4 Z" Fill="Tomato" Width="{Binding Path=Width,Mode=OneWay}" Height="{Binding Path=Height,Mode=OneWay}">
+                            <Path.Style>
+                                <Style TargetType="{x:Type Path}">
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <Setter Property="Canvas.Left" Value="{Binding Path=X,Mode=OneWay}" />
+                                    <Setter Property="Canvas.Top" Value="{Binding Path=Y,Mode=OneWay}" />
+                                </Style>
+                            </Path.Style>
+                        </Path>
+                    </DataTemplate>
+                </cnvrt:MapItemTemplateSelector.ServiceTemplate>
+                <cnvrt:MapItemTemplateSelector.EdgeTemplate>
+                    <DataTemplate>
+                        <Line StrokeThickness="1" Stroke="Black" X1="{Binding Path=Start.X}" X2="{Binding Path=End.X}" Y1="{Binding Path=Start.Y}" Y2="{Binding Path=End.Y}" StrokeEndLineCap="Triangle">
+                            <Line.Style>
+                                <Style TargetType="{x:Type Line}">
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                </Style>
+                            </Line.Style>
+                        </Line>
+                    </DataTemplate>
+                </cnvrt:MapItemTemplateSelector.EdgeTemplate>
+            </cnvrt:MapItemTemplateSelector>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <ToolBarTray Grid.Column="1">
+            <ToolBar Height="32">
+                <Button Content="AddVertex"/>
+            </ToolBar>
+        </ToolBarTray>
+        
+        <Grid Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <GroupBox Header="Сервисы" Margin="5">
+                <ListBox ItemsSource="{Binding Path=Services}" SelectedItem="{Binding Path=SelectedService,Mode=TwoWay}" DisplayMemberPath="Name" />
+            </GroupBox>
+            <GridSplitter VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="5" Background="#01000000"/>
+            <GroupBox Grid.Row="1" Header="Точки выхода" Margin="5,0,5,0">
+                <ListBox ItemsSource="{Binding Path=OutputPoints}" SelectedItem="{Binding Path=SelectedPoint,Mode=TwoWay}" DisplayMemberPath="Name" />
+            </GroupBox>
+        </Grid>
+
+        <GroupBox Grid.Column="1" Grid.Row="1" Header="Карта" Margin="5,5,5,0">
+            <GroupBox.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+            </GroupBox.Resources>
+            <wpfex:ZoomControl x:Name="zoom">
+                <ListBox ItemTemplateSelector="{StaticResource MapItemTemplateSelector}" ItemsSource="{Binding Path=NodesAndEdges,Mode=OneWay}" >
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas x:Name="canvas"
+                                Width="{Binding Path=Width,Mode=OneWay}" 
+                                Height="{Binding Path=Height,Mode=OneWay}" 
+                                Background="{Binding Path=Background,Mode=OneWay}">
+                            </Canvas>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </wpfex:ZoomControl>
+        </GroupBox>
+
+
+        <DockPanel Grid.Row="2" Grid.ColumnSpan="2">
+            <Button DockPanel.Dock="Right" Content="Отмена" Width="100" Padding="5,3" Margin="5" IsCancel="True"/>
+            <Button DockPanel.Dock="Right" Content="Ок" Width="100" Padding="5,3" Margin="0,5" IsDefault="True" Command="{Binding Path=SaveCommand,Mode=OneTime}"/>
+            <TextBlock/>
+        </DockPanel>
+    </Grid>
+</wind:MetroWindow>

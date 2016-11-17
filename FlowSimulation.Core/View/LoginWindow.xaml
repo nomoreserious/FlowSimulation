@@ -1,0 +1,57 @@
+﻿<Window x:Class="FlowSimulation.View.LoginWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" AllowsTransparency="True" Background="WhiteSmoke" SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/ResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Border BorderBrush="DimGray" BorderThickness="1">
+        <Grid Height="300" Width="500">
+            <Border BorderThickness="0.00001" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10" Width="220" Height="80" Background="#FF00A8F4">
+                <TextBlock Padding="20,0" TextAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="18" TextWrapping="WrapWithOverflow">
+                    <Run Text="МИИТ (ИТС)"/>
+                    <LineBreak/>
+                    <Run Text="2013"/>
+                </TextBlock>
+            </Border>
+
+            <Path Data="M 350,120 350,220 270,290 270,210" Fill="#FF0673A3"/>
+
+            <Path Data="M 230,190 230,70 350,120 350,220" Fill="#FF0D92CE"/>
+
+            <Path Data="M 400,10 400,130 230,190 230,70" Fill="#FF0673A3"/>
+
+            <Border BorderThickness="0.00001" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" Width="390" Height="120" Background="#FF00A8F4">
+                <TextBlock TextAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="22" TextWrapping="WrapWithOverflow" Text="Мультиагентное имитационное моделирование транспортных систем"/>
+            </Border>
+
+            <Button Margin="10" Width="24" Height="24" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="2" Click="Button_Click">
+                <Path Data="M 0,0 20,20 M 20,0 0,20" Stretch="Fill" Stroke="Black" StrokeThickness="3"/>
+            </Button>
+
+            <Grid Margin="10,170,0,0" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+            
+                <Label Content="Логин"/>
+                <Label Grid.Row="1" Content="Пароль"/>
+                <TextBox Name="txtName" Margin="1" Grid.Column="1" TextChanged="txtName_TextChanged" />
+                <PasswordBox Name="txtPass" Margin="1" Grid.Row="1" Grid.Column="1" PasswordChanged="txtPass_PasswordChanged" />
+                <Button Command="{Binding Path=LoginCommand}" Margin="1" Padding="5,4" Content="Вход в систему" Grid.Row="2" Grid.ColumnSpan="2"/>
+                <TextBlock x:Name="txtInfo" Grid.Row="3" Grid.ColumnSpan="2" Padding="3" TextWrapping="WrapWithOverflow"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,10 @@
+﻿<Window x:Class="FlowSimulation.Test.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="408" Width="746"
+       >
+    <Border HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="DimGray" BorderThickness="5">
+        <Canvas x:Name="PaintPanel" MouseDown="PaintPanel_MouseDown"/>
+    </Border>
+    
+</Window>
